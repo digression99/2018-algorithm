@@ -46,18 +46,29 @@ bool exhaustive(int pLen, int sLen) {
     return false;
 }
 
+//int dp(int pLen, int sLen) {
+//    if (pLen == W && sLen == N) return 1;
+//    int & ret = memo[pLen][sLen];
+//    if (ret != -1) return ret;
+//
+//    ret = 0;
+//    if (pat[pLen] == '?') return ret = dp(pLen + 1, sLen + 1);
+//    else if (pat[pLen] == '*') {
+//        for (int i = 0; i + sLen <= N; ++i) {
+//            ret = dp(pLen + 1, sLen + i);
+//            if (ret == 1) return ret;
+//        }
+//    } else if (pat[pLen] == str[sLen]) return ret = dp(pLen + 1, sLen + 1);
+//    return ret = 0;
+//}
+
 int dp(int pLen, int sLen) {
     if (pLen == W && sLen == N) return 1;
     int & ret = memo[pLen][sLen];
     if (ret != -1) return ret;
-    
-    ret = 0;
     if (pat[pLen] == '?') return ret = dp(pLen + 1, sLen + 1);
     else if (pat[pLen] == '*') {
-        for (int i = 0; i + sLen <= N; ++i) {
-            ret = dp(pLen + 1, sLen + i);
-            if (ret == 1) return ret;
-        }
+        if (dp(pLen + 1, sLen) || (sLen < N && dp(pLen, sLen + 1))) return ret = 1;
     } else if (pat[pLen] == str[sLen]) return ret = dp(pLen + 1, sLen + 1);
     return ret = 0;
 }
